@@ -1,0 +1,58 @@
+{
+  "name": "redux-plugins-immutable-components",
+  "version": "1.0.2",
+  "description": "handy react components for use with redux-plugins-immutable",
+  "main": "dist/index.js",
+  "scripts": {
+    "lint": "eslint src",
+    "build": "rm -rf dist; NODE_ENV=production babel src --out-dir dist",
+    "test": "npm run build && jasmine",
+    "prepublish": "npm run lint && npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mindfront/redux-plugins-immutable.git"
+  },
+  "keywords": [
+    "redux",
+    "plugin",
+    "immutable",
+    "immutable.js",
+    "fop",
+    "feature-oriented programming"
+  ],
+  "author": "Andy Edwards",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mindfront/redux-plugins-immutable/issues"
+  },
+  "homepage": "https://github.com/mindfront/redux-plugins-immutable#readme",
+  "peerDependencies": {
+    "react": "^0.14.0",
+    "redux": "^3.3.1",
+    "react-redux": "^4.0.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.4.0",
+    "babel-core": "^6.4.0",
+    "babel-eslint": "^5.0.0-beta8",
+    "babel-plugin-react-transform": "^2.0.0-beta1",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-plugin-transform-flow-strip-types": "^6.4.0",
+    "babel-plugin-transform-react-constant-elements": "^6.4.0",
+    "babel-plugin-transform-react-inline-elements": "^6.4.0",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-react": "^6.3.13",
+    "babel-preset-stage-1": "^6.3.13",
+    "eslint": "^1.3.1",
+    "jasmine": "^2.4.1"
+  },
+  "dependencies": {
+    "redux-plugins-immutable": "^1.0.2",
+    "fbjs": "^0.7.2",
+    "immutable": "^3.7.6",
+    "lodash": "^4.5.1",
+    "mindfront-redux-utils": "^1.0.1",
+    "reselect": "^2.2.1"
+  }
+}
