@@ -1,1 +1,1 @@
-# redux-plugins-immutable-components
+# redux-plugins-immutable-react
