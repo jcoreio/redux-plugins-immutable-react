@@ -111,15 +111,9 @@ class LoadPluginComponent extends Component<void, Props, void> {
     if (plugin) {
       pluginName = plugin.get('name')
       component = this.getComponent(plugin)
-      loading   = plugin.get('loadStatus') === LOADING
       loadError = plugin.get('loadError')
-
-      if (React.isValidElement(component) && component) {
-        if (componentProps) component = React.cloneElement(component, componentProps)
-      }
-      else if (component) {
-        component = React.createElement(component, componentProps || {})
-      }
+      loading   = plugin.get('loadStatus') === LOADING || 
+        (plugin.get('loadStatus') === NOT_LOADED && !component && !loadError)
     }
     else {
       loading = false
@@ -127,7 +121,14 @@ class LoadPluginComponent extends Component<void, Props, void> {
     }
 
     if (children) return children({loading, loadError, component})
-
+      
+    if (React.isValidElement(component) && component) {
+      if (componentProps) component = React.cloneElement(component, componentProps)
+    }
+    else if (component) {
+      component = React.createElement(component, componentProps || {})
+    }
+ 
     return React.createElement(skin, {pluginName, loading, loadError, children: component})
   }
 }
