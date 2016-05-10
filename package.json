@@ -1,5 +1,5 @@
 {
-  "name": "redux-plugins-immutable-components",
+  "name": "redux-plugins-immutable-react",
   "version": "1.0.0-beta1",
   "description": "React components that work with redux-plugins-immutable",
   "main": "dist/index.js",
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jedwards1211/redux-plugins-immutable-components.git"
+    "url": "git+https://github.com/jedwards1211/redux-plugins-immutable-react.git"
   },
   "keywords": [
     "react"
@@ -21,9 +21,9 @@
   "author": "Andy Edwards",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/jedwards1211/redux-plugins-immutable-components/issues"
+    "url": "https://github.com/jedwards1211/redux-plugins-immutable-react/issues"
   },
-  "homepage": "https://github.com/jedwards1211/redux-plugins-immutable-components#readme",
+  "homepage": "https://github.com/jedwards1211/redux-plugins-immutable-react#readme",
   "peerDependencies": {
     "react": "^15.0.0",
     "react-redux": "^4.0.0",

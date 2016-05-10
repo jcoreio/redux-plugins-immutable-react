@@ -30,7 +30,7 @@ describe('LoadPluginComponent', () => {
         }
       }))
     })))
-    
+
     const spies = {
       children: () => null
     }
@@ -41,7 +41,7 @@ describe('LoadPluginComponent', () => {
         <LoadPluginComponent pluginKey={PLUGIN_KEY} componentKey="TestView">
           {spies.children}
         </LoadPluginComponent>
-      </Provider>, 
+      </Provider>,
       () => {
         expect(spies.children.calls.allArgs()).toEqual([
           [{
