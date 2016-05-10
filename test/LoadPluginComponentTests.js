@@ -44,7 +44,7 @@ describe('LoadPluginComponent', () => {
           </LoadPluginComponent>
         </Provider>
       )
-      
+
       setTimeout(() => {
         expect(spies.children).toHaveBeenCalledWith(jasmine.objectContaining({
           loading: true,
@@ -120,7 +120,8 @@ describe('LoadPluginComponent', () => {
       mount(
         <Provider store={store}>
           <LoadPluginComponent pluginKey={PLUGIN_KEY} componentKey="should be ignored"
-                               getComponent={plugin => plugin.get('TestView')}>
+              getComponent={plugin => plugin.get('TestView')}
+          >
             {spies.children}
           </LoadPluginComponent>
         </Provider>
@@ -145,8 +146,9 @@ describe('LoadPluginComponent', () => {
       })
       const store = applyMiddleware(pluginMiddleware)(createStore)(pluginReducer, initialState)
 
+      const TestHeader = () => <h1>TEST</h1>
       const spies = {
-        children: () => <h1>TEST</h1>
+        children: TestHeader
       }
       spyOn(spies, 'children').and.callThrough()
 
@@ -184,7 +186,7 @@ describe('LoadPluginComponent', () => {
 
       const comp = mount(
         <Provider store={store}>
-          <LoadPluginComponent pluginKey={PLUGIN_KEY} componentKey="TestView" componentProps={{className: 'test'}}/>
+          <LoadPluginComponent pluginKey={PLUGIN_KEY} componentKey="TestView" componentProps={{className: 'test'}} />
         </Provider>
       )
       setTimeout(() => {
@@ -215,7 +217,7 @@ describe('LoadPluginComponent', () => {
 
       const comp = mount(
         <Provider store={store}>
-          <LoadPluginComponent pluginKey={PLUGIN_KEY} componentKey="TestView"/>
+          <LoadPluginComponent pluginKey={PLUGIN_KEY} componentKey="TestView" />
         </Provider>
       )
       setTimeout(() => {
@@ -244,7 +246,7 @@ describe('LoadPluginComponent', () => {
 
       const comp =mount(
         <Provider store={store}>
-          <LoadPluginComponent pluginKey={PLUGIN_KEY} componentKey="TestView"/>
+          <LoadPluginComponent pluginKey={PLUGIN_KEY} componentKey="TestView" />
         </Provider>
       )
       setTimeout(() => {

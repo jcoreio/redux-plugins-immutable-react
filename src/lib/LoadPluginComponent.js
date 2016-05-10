@@ -102,8 +102,8 @@ class LoadPluginComponent extends Component<void, Props, void> {
     }
   };
   render() {
-    let {pluginKey, plugin, componentProps, children} = this.props
-    let skin = this.context.AutoloadedPluginComponentSkin || DefaultSkin
+    const {pluginKey, plugin, componentProps, children} = this.props
+    const skin = this.context.AutoloadedPluginComponentSkin || DefaultSkin
 
     let pluginName = pluginKey
     let component, loading, loadError
@@ -112,7 +112,7 @@ class LoadPluginComponent extends Component<void, Props, void> {
       pluginName = plugin.get('name')
       component = this.getComponent(plugin)
       loadError = plugin.get('loadError')
-      loading   = plugin.get('loadStatus') === LOADING || 
+      loading   = plugin.get('loadStatus') === LOADING ||
         (plugin.get('loadStatus') === NOT_LOADED && !component && !loadError)
     }
     else {
@@ -121,15 +121,17 @@ class LoadPluginComponent extends Component<void, Props, void> {
     }
 
     if (children) return children({loading, loadError, component})
-      
-    if (React.isValidElement(component) && component) {
-      if (componentProps) component = React.cloneElement(component, componentProps)
+
+    let finalChildren
+
+    if (React.isValidElement(component)) {
+      if (component && componentProps) finalChildren = React.cloneElement(component, componentProps)
     }
     else if (component) {
-      component = React.createElement(component, componentProps || {})
+      finalChildren = React.createElement(component, componentProps || {})
     }
- 
-    return React.createElement(skin, {pluginName, loading, loadError, children: component})
+
+    return React.createElement(skin, {pluginName, loading, loadError, children: finalChildren})
   }
 }
 
