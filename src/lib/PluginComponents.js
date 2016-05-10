@@ -75,8 +75,12 @@ class PluginComponents extends Component<void, Props, void> {
 
         return plugins.map((plugin, key) => {
           let component = plugin && getComponent(plugin)
+          if (Array.isArray(component) || component instanceof Immutable.Iterable) {
+            return component.map((comp, index) => comp && createOrCloneElement(
+              comp, {...componentProps, key: `${key}-${index}`}))
+          }
           return component && createOrCloneElement(component, {...componentProps, key})
-        }).toArray()
+        }).toList().flatten().toArray()
       }
     }
   );
