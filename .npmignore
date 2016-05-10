@@ -1,4 +1,9 @@
-node_modules
-src/test
-dist/test
-spec
+examples
+sandbox
+test
+.babelrc
+.eslintrc
+.flowconfig
+karma.conf.js
+webpack.config.*
+index.html

@@ -1,19 +1,19 @@
 /* @flow */
 
-import React, {Component} from 'react';
-import Immutable from 'immutable'
-import {connect} from 'react-redux';
-import {createSelector} from 'reselect';
+import React, {Component} from 'react'
+import * as Immutable from 'immutable'
+import {connect} from 'react-redux'
+import {createSelector} from 'reselect'
 
-import warning from 'fbjs/lib/warning';
+import warning from 'warning'
 
-import createOrCloneElement from './util/createOrCloneElement';
+import createOrCloneElement from './util/createOrCloneElement'
 
 type Props = {
   plugins?: Immutable.Map,
   sortPlugins?: (plugins: Immutable.Map) => Immutable.Map,
   componentKey?: string,
-  getComponent?: (plugin: Immutable.Map) => Component<any,any,any>,
+  getComponent?: (plugin: Immutable.Map) => Component<any, any, any>,
   componentProps?: Object,
   children?: any
 };
@@ -46,48 +46,48 @@ type Props = {
  * You can specify a sortPlugins prop to control the order in which plugin components
  * show.
  */
-class PluginComponents extends Component<void,Props,void> {
+class PluginComponents extends Component<void, Props, void> {
   componentWillReceiveProps(nextProps: Props) {
-    let {getComponent, componentKey} = nextProps;
-    warning(getComponent || componentKey, "you must provide either getComponent or componentKey");
+    let {getComponent, componentKey} = nextProps
+    warning(getComponent || componentKey, "you must provide either getComponent or componentKey")
   }
-  selectPluginComponents: (props: Props) => ?Array<?ReactElement> = createSelector(
+  selectPluginComponents: (props: Props) => ?Array<?React.Element> = createSelector(
     props => props.plugins,
     props => props.sortPlugins,
     ({getComponent, componentKey}) => {
-      if (getComponent)   return getComponent;
-      if (!componentKey)  return () => undefined;
-      return plugin => plugin.getIn(['components', componentKey]);
+      if (getComponent)   return getComponent
+      if (!componentKey)  return () => undefined
+      return plugin => plugin.getIn(['components', componentKey])
     },
     props => props.componentProps || {},
     (plugins, sortPlugins, getComponent, componentProps) => {
       if (plugins) {
-        if (sortPlugins) plugins = sortPlugins(plugins);
+        if (sortPlugins) plugins = sortPlugins(plugins)
 
         return plugins.map((plugin, key) => {
-          let component = plugin && getComponent(plugin);
-          return component && createOrCloneElement(component, {...componentProps, key});
-        }).toArray();
+          let component = plugin && getComponent(plugin)
+          return component && createOrCloneElement(component, {...componentProps, key})
+        }).toArray()
       }
     }
   );
   render() {
-    let {children} = this.props;
-    let pluginComponents = this.selectPluginComponents(this.props);
+    let {children} = this.props
+    let pluginComponents = this.selectPluginComponents(this.props)
 
     if (children) {
-      return React.createElement(children, {...this.props, children: pluginComponents});
+      return React.createElement(children, {...this.props, children: pluginComponents})
     }
-    return <div {...this.props}>
+    return (<div {...this.props}>
       {pluginComponents}
-    </div>;
+    </div>)
   }
 }
 
 function select(state) {
   return {
     plugins: state.get('plugins')
-  };
+  }
 }
 
-export default connect(select)(PluginComponents);
+export default connect(select)(PluginComponents)
