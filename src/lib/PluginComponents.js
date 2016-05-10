@@ -1,6 +1,6 @@
 /* @flow */
 
-import React, {Component} from 'react'
+import React, {Component, PropTypes} from 'react'
 import * as Immutable from 'immutable'
 import {connect} from 'react-redux'
 import {createSelector} from 'reselect'
@@ -8,14 +8,15 @@ import {createSelector} from 'reselect'
 import warning from 'warning'
 
 import createOrCloneElement from './util/createOrCloneElement'
+import {mapKey} from './util/propTypes'
 
 type Props = {
   plugins?: Immutable.Map,
   sortPlugins?: (plugins: Immutable.Map) => Immutable.Map,
-  componentKey?: string,
+  componentKey?: string | Symbol,
   getComponent?: (plugin: Immutable.Map) => Component<any, any, any>,
   componentProps?: Object,
-  children?: any
+  children?: (pluginComponents: ?Array<?React.Element>) => ?React.Element
 };
 
 /**
@@ -47,6 +48,14 @@ type Props = {
  * show.
  */
 class PluginComponents extends Component<void, Props, void> {
+  static propTypes = {
+    children: PropTypes.func,
+    componentKey: mapKey,
+    componentProps: PropTypes.object,
+    getComponent: PropTypes.func,
+    plugins: PropTypes.instanceOf(Immutable.Map),
+    sortPlugins: PropTypes.func
+  };
   componentWillReceiveProps(nextProps: Props) {
     let {getComponent, componentKey} = nextProps
     warning(getComponent || componentKey, "you must provide either getComponent or componentKey")
@@ -55,9 +64,9 @@ class PluginComponents extends Component<void, Props, void> {
     props => props.plugins,
     props => props.sortPlugins,
     ({getComponent, componentKey}) => {
-      if (getComponent)   return getComponent
-      if (!componentKey)  return () => undefined
-      return plugin => plugin.getIn(['components', componentKey])
+      if (getComponent) return getComponent
+      if (componentKey) return plugin => plugin.getIn(['components', componentKey])
+      return () => undefined
     },
     props => props.componentProps || {},
     (plugins, sortPlugins, getComponent, componentProps) => {
@@ -75,12 +84,12 @@ class PluginComponents extends Component<void, Props, void> {
     let {children} = this.props
     let pluginComponents = this.selectPluginComponents(this.props)
 
-    if (children) {
-      return React.createElement(children, {...this.props, children: pluginComponents})
-    }
-    return (<div {...this.props}>
-      {pluginComponents}
-    </div>)
+    if (children) return children(pluginComponents)
+    return (
+      <div {...this.props}>
+        {pluginComponents}
+      </div>
+    )
   }
 }
 

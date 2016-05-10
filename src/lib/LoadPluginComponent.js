@@ -19,6 +19,12 @@ type SkinProps = {
 };
 
 class DefaultSkin extends Component<void, SkinProps, void> {
+  static propTypes = {
+    children: PropTypes.any,
+    loading: PropTypes.bool,
+    loadError: PropTypes.any,
+    pluginName: PropTypes.string.isRequired
+  };
   render(): React.Element {
     let {loading, pluginName, loadError, children} = this.props
 
@@ -36,9 +42,14 @@ class DefaultSkin extends Component<void, SkinProps, void> {
 }
 
 type Props = {
-  pluginKey: string,
+  pluginKey: string | Symbol,
   plugin?: Immutable.Map,
-  componentKey?: string,
+  children?: (state: {
+    loading: boolean,
+    loadError?: Error,
+    component?: any,
+  }) => ?React.Element,
+  componentKey?: string | Symbol,
   getComponent?: (plugin: Immutable.Map) => Component<any, any, any>,
   componentProps?: Object,
   dispatch: Function,
@@ -54,39 +65,44 @@ type Props = {
  * * componentKey prop - use plugin.getIn(['components', componentKey])
  * * getComponent prop - use getComponent(plugin)
  */
-class AutoloadedPluginComponent extends Component<void, Props, void> {
+class LoadPluginComponent extends Component<void, Props, void> {
   static contextTypes = {
     AutoloadedPluginComponentSkin: PropTypes.any
   };
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     getComponent: PropTypes.func,
+    children: PropTypes.func,
     componentKey: mapKey,
     componentProps: PropTypes.object,
     pluginKey: mapKey.isRequired,
     plugin: PropTypes.instanceOf(Immutable.Map)
   };
-  getComponent: (plugin: Immutable.Map) => any = plugin => {
-    let {getComponent, componentKey} = this.props
-    if (getComponent) {
-      return getComponent(plugin)
-    }
-    if (componentKey) {
-      return plugin.getIn(['components', componentKey])
-    }
-  };
-  componentWillReceiveProps(nextProps: Props) {
-    let {getComponent, componentKey} = this.props
-    warning(getComponent || componentKey, 'you must provide a getComponent or componentKey')
-  }
   componentWillMount() {
-    let {plugin, pluginKey, dispatch} = this.props
-    if (plugin && plugin.get('loadStatus') === NOT_LOADED && !this.getComponent(plugin)) {
+    this.loadPluginIfNecessary()
+  }
+  componentWillReceiveProps(nextProps: Props) {
+    const {pluginKey, getComponent, componentKey} = nextProps
+    warning(getComponent || componentKey, 'you must provide a getComponent or componentKey')
+    if (pluginKey !== this.props.pluginKey ||
+        getComponent !== this.props.getComponent ||
+        componentKey !== this.props.componentKey) {
+      this.loadPluginIfNecessary(nextProps)
+    }
+  }
+  getComponent: (plugin: Immutable.Map, props?: Props) => any = (plugin, props = this.props) => {
+    let {getComponent, componentKey} = props
+    if (getComponent) return getComponent(plugin)
+    if (componentKey) return plugin.getIn(['components', componentKey])
+  };
+  loadPluginIfNecessary: (props?: Props) => void = (props = this.props) => {
+    let {plugin, pluginKey, dispatch} = props
+    if (plugin && plugin.get('loadStatus') === NOT_LOADED && !this.getComponent(plugin, props)) {
       dispatch(loadPlugin(pluginKey))
     }
-  }
+  };
   render() {
-    let {pluginKey, plugin, componentKey, componentProps} = this.props
+    let {pluginKey, plugin, componentProps, children} = this.props
     let skin = this.context.AutoloadedPluginComponentSkin || DefaultSkin
 
     let pluginName = pluginKey
@@ -99,17 +115,18 @@ class AutoloadedPluginComponent extends Component<void, Props, void> {
       loadError = plugin.get('loadError')
 
       if (React.isValidElement(component) && component) {
-        if (componentProps) {
-          component = React.cloneElement(component, componentProps)
-        }
+        if (componentProps) component = React.cloneElement(component, componentProps)
       }
       else if (component) {
         component = React.createElement(component, componentProps || {})
       }
     }
     else {
-      loadError = `plugin ${pluginKey} not found`
+      loading = false
+      loadError = new Error(`plugin ${pluginKey} not found`)
     }
+
+    if (children) return children({loading, loadError, component})
 
     return React.createElement(skin, {pluginName, loading, loadError, children: component})
   }
@@ -121,4 +138,4 @@ function select(state, props) {
   }
 }
 
-export default connect(select)(AutoloadedPluginComponent)
+export default connect(select)(LoadPluginComponent)
