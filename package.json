@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jedwards1211/redux-plugins-immutable-react.git"
+    "url": "git+https://github.com/jcoreio/redux-plugins-immutable-react.git"
   },
   "keywords": [
     "react"
@@ -21,9 +21,9 @@
   "author": "Andy Edwards",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/jedwards1211/redux-plugins-immutable-react/issues"
+    "url": "https://github.com/jcoreio/redux-plugins-immutable-react/issues"
   },
-  "homepage": "https://github.com/jedwards1211/redux-plugins-immutable-react#readme",
+  "homepage": "https://github.com/jcoreio/redux-plugins-immutable-react#readme",
   "peerDependencies": {
     "react": "^15.0.0",
     "react-redux": "^4.0.0",
