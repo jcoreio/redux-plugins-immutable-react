@@ -1,6 +1,6 @@
 {
   "name": "redux-plugins-immutable-react",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "React components that work with redux-plugins-immutable",
   "main": "dist/index.js",
   "scripts": {
@@ -25,9 +25,11 @@
   },
   "homepage": "https://github.com/jcoreio/redux-plugins-immutable-react#readme",
   "peerDependencies": {
+    "immutable": "^3.0.0",
     "react": "0.13.x || 0.14.x || ^15.0.0",
     "react-redux": "^3.x.x || ^4.0.0",
-    "redux-plugins-immutable": "^1.0.2"
+    "redux-plugins-immutable": "^1.0.2",
+    "reselect": "^2.0.0"
   },
   "devDependencies": {
     "babel-cli": "^6.8.0",
@@ -64,7 +66,6 @@
     "webpack-merge": "^0.12.0"
   },
   "dependencies": {
-    "immutable": "^3.8.1",
     "reselect": "^2.2.1",
     "warning": "^2.1.0"
   }
