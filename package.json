@@ -25,8 +25,8 @@
   },
   "homepage": "https://github.com/jcoreio/redux-plugins-immutable-react#readme",
   "peerDependencies": {
-    "react": "^15.0.0",
-    "react-redux": "^4.0.0",
+    "react": "0.13.x || 0.14.x || ^15.0.0",
+    "react-redux": "^3.x.x || ^4.0.0",
     "redux-plugins-immutable": "^1.0.2"
   },
   "devDependencies": {
