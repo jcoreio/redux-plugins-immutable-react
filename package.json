@@ -19,7 +19,7 @@
     "react"
   ],
   "author": "Andy Edwards",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/jcoreio/redux-plugins-immutable-react/issues"
   },
