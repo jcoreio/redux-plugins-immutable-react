@@ -1,8 +1,12 @@
 # redux-plugins-immutable-react
 
-React helper components for redux-plugins-immutable
+React helper components for [mindfront/redux-plugins-immutable](redux-plugins-immutable)
 
 ## Introduction
+
+```
+npm install redux-plugins-immutable-react
+```
 
 These components help you inject other components from plugins into your UI.  There are two helpers:
 - `LoadPluginComponent`: renders a component from a plugin, loading the plugin if necessary
