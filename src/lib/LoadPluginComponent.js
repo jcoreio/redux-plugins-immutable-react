@@ -67,7 +67,7 @@ type Props = {
  */
 class LoadPluginComponent extends Component<void, Props, void> {
   static contextTypes = {
-    AutoloadedPluginComponentSkin: PropTypes.any
+    LoadPluginComponentSkin: PropTypes.any
   };
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
@@ -103,7 +103,7 @@ class LoadPluginComponent extends Component<void, Props, void> {
   };
   render() {
     const {pluginKey, plugin, componentProps, children} = this.props
-    const skin = this.context.AutoloadedPluginComponentSkin || DefaultSkin
+    const skin = this.context.LoadPluginComponentSkin || DefaultSkin
 
     let pluginName = pluginKey
     let component, loading, loadError
