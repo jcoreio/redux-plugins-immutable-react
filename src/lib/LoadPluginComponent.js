@@ -87,7 +87,7 @@ class LoadPluginComponent extends Component<void, Props, void> {
     if (pluginKey !== this.props.pluginKey ||
         getComponent !== this.props.getComponent ||
         componentKey !== this.props.componentKey ||
-        (plugin !== this.props.plugin &&
+        (plugin && this.props.plugin && plugin !== this.props.plugin &&
           plugin.get('loadStatus') === NOT_LOADED &&
           this.props.plugin.get('loadStatus') === LOADED)) {
       this.loadPluginIfNecessary(nextProps)
