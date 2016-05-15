@@ -6,7 +6,7 @@ import {connect} from 'react-redux'
 import warning from 'warning'
 
 import {pluginActions, pluginTypes} from 'redux-plugins-immutable'
-const {LOADING, NOT_LOADED} = pluginTypes
+const {LOADING, LOADED, NOT_LOADED} = pluginTypes
 const {loadPlugin} = pluginActions
 
 import {mapKey} from './util/propTypes'
@@ -82,11 +82,14 @@ class LoadPluginComponent extends Component<void, Props, void> {
     this.loadPluginIfNecessary()
   }
   componentWillReceiveProps(nextProps: Props) {
-    const {pluginKey, getComponent, componentKey} = nextProps
+    const {plugin, pluginKey, getComponent, componentKey} = nextProps
     warning(getComponent || componentKey, 'you must provide a getComponent or componentKey')
     if (pluginKey !== this.props.pluginKey ||
         getComponent !== this.props.getComponent ||
-        componentKey !== this.props.componentKey) {
+        componentKey !== this.props.componentKey ||
+        (plugin !== this.props.plugin &&
+          plugin.get('loadStatus') === NOT_LOADED &&
+          this.props.plugin.get('loadStatus') === LOADED)) {
       this.loadPluginIfNecessary(nextProps)
     }
   }
