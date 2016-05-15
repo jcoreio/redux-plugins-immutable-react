@@ -1,6 +1,6 @@
 # redux-plugins-immutable-react
 
-React helper components for [redux-plugins-immutable](http://github.com/jcoreio/redux-plugins-immutable]
+React helper components for [redux-plugins-immutable](http://github.com/jcoreio/redux-plugins-immutable)
 
 ## Introduction
 
