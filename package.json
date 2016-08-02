@@ -1,6 +1,6 @@
 {
   "name": "redux-plugins-immutable-react",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "React components that work with redux-plugins-immutable",
   "main": "dist/index.js",
   "scripts": {

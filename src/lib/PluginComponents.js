@@ -11,12 +11,12 @@ import createOrCloneElement from './util/createOrCloneElement'
 import {mapKey} from './util/propTypes'
 
 type Props = {
-  plugins?: Immutable.Map,
-  sortPlugins?: (plugins: Immutable.Map) => Immutable.Map,
+  plugins?: Immutable.Map<any, any>,
+  sortPlugins?: (plugins: Immutable.Map<any, any>) => Immutable.Map<any, any>,
   componentKey?: string | Symbol,
-  getComponent?: (plugin: Immutable.Map) => Component<any, any, any>,
+  getComponent?: (plugin: Immutable.Map<any, any>) => Component<any, any, any>,
   componentProps?: Object,
-  children?: (pluginComponents: ?Array<?React.Element>) => ?React.Element
+  children?: (pluginComponents: ?Array<?React.Element<any>>) => ?React.Element<any>
 };
 
 /**
@@ -60,7 +60,7 @@ class PluginComponents extends Component<void, Props, void> {
     let {getComponent, componentKey} = nextProps
     warning(getComponent || componentKey, "you must provide either getComponent or componentKey")
   }
-  selectPluginComponents: (props: Props) => ?Array<?React.Element> = createSelector(
+  selectPluginComponents: (props: Props) => ?Array<?React.Element<any>> = createSelector(
     props => props.plugins,
     props => props.sortPlugins,
     ({getComponent, componentKey}) => {

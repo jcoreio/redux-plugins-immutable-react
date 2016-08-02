@@ -25,17 +25,17 @@ class DefaultSkin extends Component<void, SkinProps, void> {
     loadError: PropTypes.any,
     pluginName: PropTypes.string.isRequired
   };
-  render(): React.Element {
+  render(): React.Element<any> {
     let {loading, pluginName, loadError, children} = this.props
 
     if (loading) {
       return <h1>Loading {pluginName} plugin...</h1>
     }
     if (loadError) {
-      return <h1>Failed to load {pluginName} plugin: {loadError.message || loadError}</h1>
+      return <h1>Failed to load {pluginName || ''} plugin: {loadError.message || loadError}</h1>
     }
     if (!children) {
-      return <h1>{`Couldn't find component for ${pluginName} plugin`}</h1>
+      return <h1>{`Couldn't find component for ${pluginName || ''} plugin`}</h1>
     }
     return children
   }
@@ -43,14 +43,14 @@ class DefaultSkin extends Component<void, SkinProps, void> {
 
 type Props = {
   pluginKey: string | Symbol,
-  plugin?: Immutable.Map,
+  plugin?: Immutable.Map<any, any>,
   children?: (state: {
     loading: boolean,
     loadError?: Error,
     component?: any,
-  }) => ?React.Element,
+  }) => ?React.Element<any>,
   componentKey?: string | Symbol,
-  getComponent?: (plugin: Immutable.Map) => Component<any, any, any>,
+  getComponent?: (plugin: Immutable.Map<any, any>) => Component<any, any, any>,
   componentProps?: Object,
   dispatch: Function,
 };
@@ -93,7 +93,7 @@ class LoadPluginComponent extends Component<void, Props, void> {
       this.loadPluginIfNecessary(nextProps)
     }
   }
-  getComponent: (plugin: Immutable.Map, props?: Props) => any = (plugin, props = this.props) => {
+  getComponent: (plugin: Immutable.Map<any, any>, props?: Props) => any = (plugin, props = this.props) => {
     let {getComponent, componentKey} = props
     if (getComponent) return getComponent(plugin)
     if (componentKey) return plugin.getIn(['components', componentKey])
@@ -120,7 +120,7 @@ class LoadPluginComponent extends Component<void, Props, void> {
     }
     else {
       loading = false
-      loadError = new Error(`plugin ${pluginKey} not found`)
+      loadError = new Error(`plugin ${pluginKey.toString()} not found`)
     }
 
     if (children) return children({loading, loadError, component})
