@@ -89,8 +89,16 @@ class PluginComponents extends Component<void, Props, void> {
     let pluginComponents = this.selectPluginComponents(this.props)
 
     if (children) return children(pluginComponents)
+
+    const props = {...this.props}
+    delete props.componentKey
+    delete props.componentProps
+    delete props.getComponent
+    delete props.plugins
+    delete props.sortPlugins
+
     return (
-      <div {...this.props}>
+      <div {...props}>
         {pluginComponents}
       </div>
     )
